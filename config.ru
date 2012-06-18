@@ -61,6 +61,8 @@ get '/' do
 end
 
 get '/challenge' do
+  puts request.env.to_hash
+  $stdout.flush
   [200, {}, '{"challenge":"super-secret"}']
 end
 
