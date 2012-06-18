@@ -73,7 +73,13 @@ get '/challenge' do
   buffer = "".force_encoding('BINARY')
 
   buffer << "\x01" # protocol version 1.
-  buffer << [(Time.now.to_f * 1000).to_i].pack("Q>")
+
+  # milliseconds since the epoch
+  time = (Time.now.to_f * 1000).to_i
+
+  # 64-bit number in network ordering
+  # (not possible to use Q> because it doesn't exist in ruby-1.9.2)
+  buffer << [time >> 32 & 0xffffffff, time & 0xffffffff].pack("NN")
 
   if remote_ip.ipv4?
     buffer << "\x04" # IP version 4
