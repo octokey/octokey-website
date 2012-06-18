@@ -2,9 +2,13 @@ require 'sinatra'
 require 'active_support/core_ext'
 require 'pusher'
 
+require 'base64'
+require 'ipaddr'
+
 Pusher.app_id ='22446'
 Pusher.key = '427a8908c6541ab6f357'
 Pusher.secret = ENV["PUSHER_SECRET_KEY"]
+CHALLENGE_HMAC_SECRET = Base64.decode64(ENV["CHALLENGE_HMAC_SECRET"])
 
 auths = {}
 
@@ -61,9 +65,28 @@ get '/' do
 end
 
 get '/challenge' do
-  puts request.env.to_hash
-  $stdout.flush
-  [200, {}, '{"challenge":"super-secret"}']
+
+  # TODO: blindly trusting X-Forwarded-For headers is a bad idea.
+  # HACK using quick-deploy stack IP for now
+  remote_ip = IPAddr.new("172.18.158.41" || request.env['HTTP_X_FORWARDED_FOR'] || request.env['REMOTE_ADDR'])
+
+  buffer = "".force_encoding('BINARY')
+
+  buffer << "\x01" # protocol version 1.
+  buffer << [(Time.now.to_f * 1000).to_i].pack("Q>")
+
+  if remote_ip.ipv4?
+    buffer << "\x04" # IP version 4
+    buffer << [remote_ip.to_i].pack("N")
+  else
+    raise "Only IPv4 addresses are supported"
+  end
+
+  buffer << SecureRandom.random_bytes(32)
+
+  buffer << OpenSSL::HMAC.digest("sha1", CHALLENGE_HMAC_SECRET, buffer)
+
+  [200, {}, Base64.encode64(buffer).gsub("\n", "")]
 end
 
 run Sinatra::Application
