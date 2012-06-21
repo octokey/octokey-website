@@ -68,7 +68,7 @@ get '/challenge' do
 
   # TODO: blindly trusting X-Forwarded-For headers is a bad idea.
   # HACK using quick-deploy stack IP for now
-  remote_ip = IPAddr.new("172.18.158.41" || request.env['HTTP_X_FORWARDED_FOR'] || request.env['REMOTE_ADDR'])
+  remote_ip = IPAddr.new("172.18.158.55" || request.env['HTTP_X_FORWARDED_FOR'] || request.env['REMOTE_ADDR'])
 
   buffer = "".force_encoding('BINARY')
 
