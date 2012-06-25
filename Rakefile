@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Octokey::Application.load_tasks
+OctokeyWebsite::Application.load_tasks

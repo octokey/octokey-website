@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Octokey::Application.config.secret_token = ENV['SESSION_SECRET'] or puts 'Warning: SESSION_SECRET environment variable not set!'
+OctokeyWebsite::Application.config.secret_token = ENV['SESSION_SECRET'] or raise 'SESSION_SECRET environment variable not set!'
