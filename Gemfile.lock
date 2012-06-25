@@ -65,7 +65,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.19)
     multi_json (1.3.6)
-    octokey (0.1.pre.1)
+    octokey (0.1.pre.2)
     pg (0.14.0)
     polyglot (0.3.3)
     rack (1.4.1)

@@ -1,0 +1,19 @@
+<div class="hero-unit">
+<div class="row">
+  <div class="span4" style="text-align: center">
+    <img src="/images/octokey-200x180.png" alt="Octokey logo">
+  </div>
+
+  <div class="span6">
+    <h2>Sign up now!</h2>
+      <%= form_tag :users, class: "octokey" do  %>
+        <%= text_field_tag :name, '', placeholder: "Full name" %><br/>
+        <%= text_field_tag :username, '', class: "octokey-username", placeholder: "Email address" %><br/>
+        <%= password_field_tag :auth_request, '', class: "octokey-auth-request", placeholder: "Octokey" %><br/>
+        <%= submit_tag "Go!" %>
+        <%= hidden_field_tag :octokey, "/octokey/challenge", class: "octokey-challenge-url" %>
+      <% end %>
+  </div>
+</div>
+</div>
+
