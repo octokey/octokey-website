@@ -1,2 +1,0 @@
-class WebsiteController < ApplicationController
-end

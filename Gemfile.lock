@@ -43,6 +43,7 @@ GEM
     eventmachine (0.12.10)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    high_voltage (1.1.1)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.4)
@@ -89,6 +90,7 @@ GEM
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
+    redcarpet (2.1.1)
     sass (3.1.19)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -124,9 +126,11 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  high_voltage
   jquery-rails
   pg
   rails (= 3.2.6)
+  redcarpet
   sass-rails (~> 3.2.3)
   thin
   twitter-bootstrap-rails
