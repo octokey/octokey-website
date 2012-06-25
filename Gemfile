@@ -24,7 +24,8 @@ end
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'high_voltage' # controller for static pages
-gem 'redcarpet'    # markdown
+gem 'kramdown'     # markdown
+gem 'coderay'      # syntax highlighting
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -19,3 +19,11 @@ venenatis lobortis. In posuere justo sed justo laoreet pellentesque.
 
 Sed a dui vitae turpis euismod sagittis. Nulla cursus magna enim, quis cursus
 lacus.
+
+    int main(void) {
+        printf("Hello world!");
+        return 0;
+    }
+{:lang="c"}
+
+Pretty nice!
