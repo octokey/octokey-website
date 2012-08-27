@@ -1,6 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  around_filter :pry_rescue if Rails.env == 'development'
+
+  def pry_rescue
+    Pry::rescue{ yield }
+  end
+
   private
 
   def octokey_username
