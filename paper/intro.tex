@@ -1,22 +1,30 @@
 \section{Introduction}
 
-For a majority of consumer web use cases, an authentication system with the following properties is
-desirable:
+Despite their many well-known flaws, passwords are still by far the most commonly used
+authentication system on the web. However, as users sign up for ever more services, their use is
+becoming increasingly unsustainable: demanding that users choose passwords with sufficient entropy,
+use a different password for every site, not write them down and even rotate passwords periodically
+is unrealistic for most internet services.
+
+With phishing attacks and leaks of password databases unfortunately commonplace, we seek a better
+solution. In this paper we focus on authentication in a consumer internet context, such as social
+media or e-commerce websites and mobile apps. For a majority of such use cases, an authentication
+system with the following properties is desirable:
 
 \begin{itemize}
-\item The system should not depend on any trusted third party, to avoid risks arising from failure
-of the third party (security compromise, going out of business, change of policies etc).
+\item The system should minimize exposure to human error (such as phishing). Whilst human error
+is unavoidable, especially amongst non-technical users, the system should be designed so as to
+minimize the impact in the case of error.
 \item It is not necessary, and often undesirable, for the system to authenticate the user as a
-physical person. Many websites allow pseudonymous signup, which is desirable for privacy, freedom of
-speech and other reasons. The purpose of the authentication system is thus only to verify that the
+physical person. Many websites allow pseudonymous signup, which is desirable for reasons of privacy
+or freedom of speech. The purpose of the authentication system is thus only to verify that the
 current user is the same person as the one who originally signed up under a particular username; no
 authentication is performed at signup.
-\item To ease adoption, the system should be easy for end-users to install and use, and easy for
-website owners to deploy. Since user signup and user activity rates are important business metrics
-for many websites, the system should make signup and login extremely easy and enjoyable for users.
-\item The system should minimize its exposure to human error. Whilst human error is unavoidable,
-especially amongst non-technical users, the system should be designed so as to minimize the impact
-in the case of error.
+\item The system should not depend on any trusted third party, to avoid risks arising from failure
+of the third party (security compromise, going out of business, change of policies etc).
+\item The system should be easy for end-users to install and use, and easy for website owners to
+deploy. Since user signup and user activity rates are important business metrics for many online
+services, the system should make signup and login extremely easy and enjoyable for users.
 \item Users should have the freedom to use the system on a variety of devices, including shared or
 public computers that are only partially trusted, whilst minimizing their exposure to attackers.
 For example, a user may choose log in to `unimportant' services (e.g. casual online games) on a
@@ -26,36 +34,32 @@ is no generally agreed boundary between `important' and `unimportant' websites, 
 authentication system should be able to support both use cases.
 \end{itemize}
 
+In the next section we discuss various authentication systems that are used on the web, and explain
+why none of them meet these requirements. We then introduce Octokey, an authentication protocol
+which addresses these issues. We believe that Octokey could be a practicable solution to online
+authentication in the near future, and we seek the information security community's feedback to
+improve this proposal.
 
 \section{Existing web authentication systems}
 \subsection{Passwords}
 
-Despite their many well-known flaws, passwords are still by far the most commonly used
-authentication system on the web. They have many of the desirable properties mentioned above: no
-dependence on any third party, pseudonymity, simplicity, familiarity and cross-device compatibility.
-However, they are highly susceptible to human error: use of weak passwords, reuse of the same
-password across different services, phishing attacs and leaks of unhashed or weakly hashed password
-databases are unfortunately commonplace.
+Passwords have many of the desirable properties mentioned above: no dependence on any third party,
+pseudonymity, simplicity of implementation, familiarity and cross-device compatibility. However,
+remembering a large number of passwords is a big burden on users, and they are highly susceptible to
+human error: use of weak passwords, reuse of the same password across different services, phishing
+attacs and leaks of unhashed or weakly hashed password databases are sadly common.
 
-The problem is not ignorance of the risks, but rather the inconvenience of the alternatives.
-[TODO cite something about the number of passwords that people are able to memorize.]
 Password manager products such as 1Password or LastPass make it feasible for users to maintain a
 strong, unique password for each service they use. However, even when a unique password is used, an
 attacker who succeeds in stealing a password (e.g. by phishing, keylogging, man-in-the-middle attack
 or eavesdropping when it is accidentally sent over an unencrypted connection) has access to that
-user account until the password is changed, which is practically forever [citation needed].
+user account until the password is changed, which is often a long time.
 
 Password managers also have grave exposure to human error. For example, consider a user who wishes
-to log in to an `unimportant' website on an untrusted computer. They may be carrying their encrypted
-password database with them on a trusted device (such as their smartphone), in which case their best
-option is to enter the encryption passphrase on their smartphone's tiny keyboard, find the record
-for the desired website, read the random password from the smartphone screen and type it letter by
-letter into the browser on the untrusted computer. By contrast, it seems much more convenient to
-\emph{(``just this once'')} type the master passphrase into the untrusted computer to decrypt the
-password database there, and copy\&paste the password for the `unimportant' website. Of course this
-has the effect of exposing the user's entire password database to an attacker. This characteristic
-of password managers -- making it so tempting to commit a grave security mistake -- should be a
-cause for concern in an authentication system with mainstream adoption.
+to log in to an `unimportant' website on an untrusted computer. It is very tempting for the user to
+type the master passphrase of their password manager into the untrusted computer, in order to
+decrypt the password database. This has the effect of exposing the user's entire password database
+to an attacker.
 
 \subsection{One-time passwords}
 
@@ -114,4 +118,11 @@ Delegated authentication systems like OpenID are thus lacking in some of the des
 authentication systems outlined above.
 
 \subsection{Client certificates}
+
+Client certificate authentication can be performed by hardware tokens using the PKCS \#11
+\emph{Cryptoki} API. This provides some protection against private keys being stolen by malware.
+
 \subsection{BrowserID}
+TODO
+\subsection{FIDO}
+TODO
